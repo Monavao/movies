@@ -6,9 +6,27 @@
 	<link rel="stylesheet" type="text/css" href="../public/style.css">
 </head>
 <body>
-	<h1>All Movies</h1>
+	<% include ./partials/header %>
+	
+	<h1><%= title %></h1>
 	<div>
-		Suspendisse porta nibh felis, at iaculis velit tristique in. 
+		<% for(movie of movies) {%> 
+			<div><%= movie.title %> (<%= movie.year %>)</div>
+		<% } %>
 	</div>
+	<br>
+	<div>
+		<form action="/movies" method="post">
+			<label for="movietitle">Titre du film</label>
+			<input type="" name="movietitle" id="movietitle">
+
+			<label for="movieyear">Année du film</label>
+			<input type="" name="movieyear" id="movieyear">
+
+			<button type="submit">Ajouter</button>
+		</form>
+	</div>
+
+	<% include ./partials/footer %>
 </body>
 </html>
