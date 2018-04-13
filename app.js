@@ -3,12 +3,14 @@ const bodyParser = require('body-parser');
 const app = express();
 const multer = require('multer');
 const upload = multer();
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const port = 3000;
+const fakeUser = { email: 'hello', password: '123' };
 let frenchMovies = [];
 
 app.use('/public',express.static('public'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(urlencodedParser);
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -83,6 +85,36 @@ app.get('/movies/:id', (req, res) => {
 
 app.get('/movies-search', (req, res) => {
 	res.render('movies-search');
+});
+
+app.get('/login', (req, res) => {
+	res.render('login', {
+		title: 'Connexion'
+	});
+});
+
+app.post('/login', urlencodedParser, (req, res) => {
+	if(!req.body)
+	{
+		console.log('login post :', req.body);
+		res.sendStatus(500);
+	}
+	else
+	{
+		if(fakeUser.email === req.body.email 
+			&& fakeUser.password === req.body.password)
+		{
+			res.json({
+				message: 'Bienvenue sur votre espace personnel',
+				lastSearch: 'Taxi',
+				lastLogin: new Date()
+			});
+		}
+		else
+		{
+			res.sendStatus(401);
+		}
+	}
 });
 
 app.listen(port, () => {
