@@ -81,6 +81,10 @@ app.get('/movies/:id', (req, res) => {
 	});
 });
 
+app.get('/movies-search', (req, res) => {
+	res.render('movies-search');
+});
+
 app.listen(port, () => {
 	console.log('listening on port 3000');
 });
