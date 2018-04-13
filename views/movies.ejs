@@ -9,7 +9,7 @@
 	<% include ./partials/header %>
 	
 	<h1><%= title %></h1>
-	<div>
+	<div class="movies">
 		<% for(movie of movies) {%> 
 			<div><%= movie.title %> (<%= movie.year %>)</div>
 		<% } %>
@@ -28,5 +28,6 @@
 	</div>
 
 	<% include ./partials/footer %>
+	<script type="text/javascript" src="../public/formControl.js"></script>
 </body>
 </html>

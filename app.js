@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const multer = require('multer');
+const upload = multer();
 
+const port = 3000;
 let frenchMovies = [];
 
 app.use('/public',express.static('public'));
@@ -30,14 +32,39 @@ app.get('/movies', (req, res) => {
 	});
 });
 
+/*
 app.post('/movies', (req, res) => {
-	const newMovie = { title: req.body.movietitle, year: req.body.movieyear };
+	const newMovie = { 
+		title: req.body.movietitle, 
+		year: req.body.movieyear 
+	};
 
 	//frenchMovies.push(newMovie);
 	frenchMovies = [...frenchMovies, newMovie];
 	console.log(frenchMovies);
 
 	res.sendStatus(201);
+});
+*/
+
+app.post('/movies', upload.fields([]), (req, res) => {
+	if(!req.body)
+	{
+		return res.status(500);
+	}
+	else
+	{
+		const formData = req.body;
+		console.log('formData: ', formData);
+		const newMovie = {
+			title: req.body.movietitle,
+			year: req.body.movieyear
+		};
+
+		frenchMovies = [...frenchMovies, newMovie];
+		console.log('frenchMovies: ', frenchMovies);
+		res.sendStatus(201);
+	}
 });
 
 app.get('/movies/add', (req, res) => {
